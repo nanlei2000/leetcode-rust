@@ -24,13 +24,17 @@ fn length_of_longest_substring(s: String) -> i32 {
   let mut start_index = 0;
   let mut max = 0;
   for (i, item) in s.char_indices() {
-    let index = index_map.get(&item);
-    if index.is_some() && index.unwrap() >= &start_index {
-      let diff = i - start_index;
-      if diff > max {
-        max = diff;
+    match index_map.get(&item) {
+      Some(index) => {
+        if index >= &start_index {
+          let diff = i - start_index;
+          if diff > max {
+            max = diff;
+          }
+          start_index = index + 1;
+        }
       }
-      start_index = index.unwrap() + 1;
+      None => {}
     }
     index_map.insert(item, i);
   }
